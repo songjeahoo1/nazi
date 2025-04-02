@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나치제국 주의 연합</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-image: url('nazi.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Noto Sans KR', sans-serif;
+            color: white;
+            text-align: center;
+        }
+        .login-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .login-container button:hover {
+            background: #ff6347;
+        }
+        .hidden {
+            display: none;
+        }
+        .content {
+            display: none;
+            padding: 20px;
+            text-align: center;
+        }
+        .header {
+            margin-top: 50px;
+            font-size: 48px;
+            font-weight: bold;
+           
+        }
+        .sub-header {
+            margin-top: 10px;
+            font-size: 24px;
+            opacity: 0.8;
+        }
+        .main-content {
+            margin-top: 30px;
+            font-size: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .text-area-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: none;
+        }
+        .chat-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .chat-box {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="login-box">
+        <h2>로그인</h2>
+        <input type="text" id="username" placeholder="이름 입력">
+        <input type="password" id="password" placeholder="비밀번호 입력">
+        <button onclick="login()">로그인</button>
+        <p id="error" style="color: red;"></p>
+    </div>
+    
+    <div class="main-content hidden" id="main-content">
+        <img src="logo.png" alt="의병군 로고" width="200">
+        <h1>양학중게이들은 우리가 잡는다 나치 제국주의 연합!!</h1>
+        <p>우리는 게이를 몰살해야한다.</p>
+        <p>우리는 양학중의 평화로운 일상을위한 제국주의 나치 연합이다!!</p>
+    </div>
+    
+    <div class="chat-container hidden" id="chat-container">
+        <h2>실시간 채팅</h2>
+        <div class="chat-box" id="chat-box"></div>
+        <input type="text" id="chat-input" placeholder="메시지를 입력하세요..." onkeypress="handleKeyPress(event)">
+    </div>
+
+    <script>
+        let username = "";
+        function login() {
+            username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const allowedUsers = ["조윤준", "윤동연", "임주원", "김민준", "정주윤", "송지후", "김효대", "류경모"];
+            
+            if (password === "12345" && allowedUsers.includes(username)) {
+                document.getElementById("login-box").classList.add("hidden");
+                document.getElementById("main-content").classList.remove("hidden");
+                document.getElementById("chat-container").classList.remove("hidden");
+            } else {
+                document.getElementById("error").innerText = "로그인 실패. 이름 또는 비밀번호를 확인하세요.";
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const chatInput = document.getElementById("chat-input");
+            const message = chatInput.value.trim();
+            if (message === "") return;
+            appendMessage(username + ": " + message);
+            chatInput.value = "";
+        }
+
+        function appendMessage(content) {
+            const chatBox = document.getElementById("chat-box");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("chat-message");
+            messageDiv.innerText = content;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
