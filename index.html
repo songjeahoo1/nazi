@@ -104,19 +104,22 @@
         .chat-container {
             max-width: 800px;
             margin: 20px auto;
-            background: white;
+            background: rgba(0, 0, 0, 0.7);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: left;
         }
         .chat-box {
-            height: 400px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            background: #f9f9f9;
-            border-radius: 5px;
+            margin-top: 30px;
+            font-size: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -143,7 +146,7 @@
     </div>
 
     <script>
-        let username = "";
+let username = "";
         function login() {
             username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
@@ -176,9 +179,28 @@
             const chatBox = document.getElementById("chat-box");
             const messageDiv = document.createElement("div");
             messageDiv.classList.add("chat-message");
-            messageDiv.innerText = content;
+            messageDiv.innerHTML = content;
             chatBox.appendChild(messageDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function sendFile() {
+            const fileInput = document.getElementById("file-input");
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                let content = "";
+                if (file.type.startsWith("image")) {
+                    content = `<strong>${username}:</strong><br><img src="${event.target.result}" alt="이미지">`;
+                } else if (file.type.startsWith("video")) {
+                    content = `<strong>${username}:</strong><br><video controls><source src="${event.target.result}" type="${file.type}"></video>`;
+                }
+                appendMessage(content);
+            };
+            reader.readAsDataURL(file);
+            fileInput.value = "";
         }
     </script>
 </body>
